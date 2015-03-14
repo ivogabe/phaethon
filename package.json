@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/ivogabe/phaethon"
   },
   "engines": {
     "node": ">=0.12"
