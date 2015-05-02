@@ -4,6 +4,7 @@ import querystring = require('querystring');
 import headers = require('./headers');
 import Map = require('./map');
 import Cookie = require('./cookie');
+import Dictionary = require('./dictionary');
 
 const defaultMaxBodyLength = 1048576;
 
@@ -176,6 +177,13 @@ class ServerRequest {
             return JSON.parse(str);
         }));
     }
+
+	private _bodyJsonDictionary: Promise<Dictionary> = undefined;
+	get bodyJsonDictionary(): Promise<Dictionary> {
+		return this._bodyJsonDictionary || (this._bodyJsonDictionary = this.bodyJson.then((obj) => {
+			return new Dictionary(obj);
+		}));
+	}
 }
 
 export = ServerRequest;

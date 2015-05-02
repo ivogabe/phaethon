@@ -3,5 +3,7 @@ export import ServerRequest = require('./serverrequest');
 export import ServerResponse = require('./serverresponse');
 export import ServerError = require('./servererror');
 export import StatusCode = require('./statuscode');
+export import Dictionary = require('./dictionary');
 export import headers = require('./headers');
 export import responses = require('./responses');
+export import validate = require('./validate');
