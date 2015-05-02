@@ -12,7 +12,6 @@
     "no-debugger": true,
     "no-duplicate-key": true,
     "no-eval": true,
-    "no-string-literal": true,
     "no-trailing-comma": true,
     "no-unused-variable": true,
     "no-unreachable": true,
