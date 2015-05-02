@@ -33,7 +33,9 @@ gulp.task('scripts', ['clean'], function(callback) {
 		.pipe(sourcemaps.init())
 		.pipe(ts(tsProject));
     return merge(
-        tsRes.js.pipe(gulp.dest('release/js')),
+        tsRes.js
+            .pipe(sourcemaps.write('.'))
+            .pipe(gulp.dest('release/js')),
         tsRes.dts.pipe(gulp.dest('release/dts'))
     );
 });
