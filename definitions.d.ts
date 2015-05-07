@@ -1,4 +1,5 @@
+/// <reference path="release/dts/server.d.ts" />
 declare module 'phaethon' {
-	import lib = require('release/dts/server/main.d.ts');
-	export = lib;
+	import main = require('___phaethon/main');
+	export = main;
 }

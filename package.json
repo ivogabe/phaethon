@@ -17,11 +17,14 @@
   "main": "release/server/main.js",
   "devDependencies": {
     "gulp": "~3.8.11",
+    "gulp-footer": "^1.0.5",
+    "gulp-header": "^1.2.2",
     "gulp-sourcemaps": "~1.5.2",
     "gulp-tslint": "^2.0.0",
     "gulp-typescript": "~2.6.0",
     "merge2": "^0.3.5",
-    "rimraf": "~2.3.3"
+    "rimraf": "~2.3.3",
+    "typescript": "^1.5.0-beta"
   },
   "repository": {
     "type": "git",

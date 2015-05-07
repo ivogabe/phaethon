@@ -1,6 +1,6 @@
 import ServerError = require('./servererror');
 import StatusCode = require('./statuscode');
-import Map = require('map');
+import Map = require('./map');
 
 export interface Type<T> {
 	(value: any): boolean;
