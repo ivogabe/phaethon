@@ -14,7 +14,7 @@
     "name": "Ivo Gabe de Wolff",
     "url": "http://ivogabe.com/"
   },
-  "main": "release/server/main.js",
+  "main": "release/js/server/main.js",
   "devDependencies": {
     "gulp": "~3.8.11",
     "gulp-footer": "^1.0.5",
