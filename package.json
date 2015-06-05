@@ -1,6 +1,6 @@
 {
   "name": "phaethon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Fast, promise-based, non-magical server package for node.js.",
   "homepage": "https://github.com/ivogabe/phaethon",
   "bugs": "https://github.com/ivogabe/phaethon/issues",
