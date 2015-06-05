@@ -43,10 +43,6 @@ Installation
 ```
 npm install phaethon
 ```
-Note: you need nodejs v0.12+ and you need to run node with the `--harmony --use_strict` flags:
-```
-node --harmony --use_strict foo.js
-```
 
 Features
 --------
