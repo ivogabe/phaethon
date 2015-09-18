@@ -1,16 +1,15 @@
-import ServerError = require('./servererror');
-import StatusCode = require('./statuscode');
-import Map = require('./map');
+import { ServerError } from './servererror';
+import { StatusCode } from './statuscode';
+import { Map } from './map';
 
 export interface Type<T> {
-	(value: any): boolean;
-	__typeBrand?: T;
+	(value: any): value is T;
 }
 function isTypeOf<U>(typeOfString: string): Type<U> {
-	return (value) => typeof value === typeOfString;
+	return <Type<U>> ((value) => typeof value === typeOfString);
 }
 export function isInstanceOf<U>(instanceOfClass: { new(...args: any[]): U }): Type<U> {
-	return (value) => (value instanceof <Function> instanceOfClass);
+	return <Type<U>> ((value) => (value instanceof <Function> instanceOfClass));
 }
 
 export let isAny = <Type<any>>((value) => (value !== undefined && value !== null));
@@ -24,7 +23,7 @@ export let isDate = isInstanceOf(Date);
 export let isBuffer = <Type<Buffer>> Buffer.isBuffer;
 
 export function isArrayOf<U>(contentType: Type<U>, optional = false): Type<U[]> {
-	return (value) => {
+	return <Type<U[]>>((value) => {
 		if (!(value instanceof Array)) return false;
 		for (let i = 0; i < (<Array<any>> value).length; i++) {
 			let item = (<Array<any>> value)[i];
@@ -32,20 +31,19 @@ export function isArrayOf<U>(contentType: Type<U>, optional = false): Type<U[]> 
 			if (!contentType(item)) return false;
 		}
 		return true;
-	};
+	});
 }
 export function isMapOf<U>(contentType: Type<U>, optional = false): Type<Map<U>> {
-	return (value) => {
-		if (typeof value !== 'object') return false;
-		for (let key in value) {
-			if (!Object.prototype.hasOwnProperty.call(value, key)) continue;
+	return <Type<Map<U>>> ((value) => {
+		if (typeof value !== 'object' || value === null) return false; // typeof null === 'object'
+		for (const key of Object.keys(value)) {
 			if (typeof key === 'number') return false;
 			let item = (<Map<any>> value)[key];
 			if (optional && (item === undefined || item === null)) continue;
 			if (!contentType(item)) return false;
 		}
 		return true;
-	};
+	});
 }
 
 /**

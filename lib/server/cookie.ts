@@ -1,7 +1,7 @@
-import cookie = require('cookie');
-import Map = require('./map');
+import * as cookie from 'cookie';
+import { Map } from './map';
 
-class Cookie {
+export class Cookie {
 	name: string;
 	value: string;
 	expires: Date;
@@ -42,5 +42,3 @@ class Cookie {
 
 	static parse: (str: string) => Map<string> = cookie.parse;
 }
-
-export = Cookie;

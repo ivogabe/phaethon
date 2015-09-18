@@ -1,12 +1,12 @@
-import stream = require('stream');
-import http = require('http');
-import headers = require('./headers');
-import StatusCode = require('./statuscode');
-import Cookie = require('./cookie');
-import Map = require('./map');
+import * as stream from 'stream';
+import * as http from 'http';
+import * as headers from './headers';
+import { StatusCode } from './statuscode';
+import { Cookie } from './cookie';
+import { Map } from './map';
 
-class ServerResponse {
-    constructor(content: ServerResponse.Content = undefined, headers: { [ header: string ]: string | string[] } = {}, status = StatusCode.SuccessOK) {
+export class ServerResponse {
+    constructor(content: ServerResponseContent = undefined, headers: { [ header: string ]: string | string[] } = {}, status = StatusCode.SuccessOK) {
         this.content = content;
         this.headers = headers;
         this.status = status;
@@ -14,7 +14,7 @@ class ServerResponse {
 
     status: StatusCode;
     headers: Map<string | string[]>;
-    content: ServerResponse.Content;
+    content: ServerResponseContent;
     addExtraHeaders = true;
 
     setHeader(header: string, value: string, append = false) {
@@ -60,8 +60,5 @@ class ServerResponse {
         }
     }
 }
-module ServerResponse {
-    export type Content = string | Buffer | stream.Readable;
-}
 
-export = ServerResponse;
+export type ServerResponseContent = string | Buffer | stream.Readable;

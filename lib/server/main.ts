@@ -1,9 +1,11 @@
-export import Server = require('./server');
-export import ServerRequest = require('./serverrequest');
-export import ServerResponse = require('./serverresponse');
-export import ServerError = require('./servererror');
-export import StatusCode = require('./statuscode');
-export import Dictionary = require('./dictionary');
-export import headers = require('./headers');
-export import responses = require('./responses');
-export import validate = require('./validate');
+export { Server } from './server';
+export { ServerRequest } from './serverrequest';
+export { ServerResponse, ServerResponseContent } from './serverresponse';
+export { ServerError } from './servererror';
+export { StatusCode } from './statuscode';
+export { Dictionary } from './dictionary';
+
+import * as headers from './headers';
+import * as responses from './responses';
+import * as validate from './validate';
+export { headers, responses, validate };

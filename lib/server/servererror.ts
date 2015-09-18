@@ -1,8 +1,8 @@
-import http = require('http');
-import StatusCode = require('./statuscode');
-import ServerResponse = require('./serverresponse');
+import * as http from 'http';
+import { StatusCode } from './statuscode';
+import { ServerResponse } from './serverresponse';
 
-class ServerError extends ServerResponse {
+export class ServerError extends ServerResponse {
     constructor(status: StatusCode, content: string = undefined, headers: { [ header: string ]: string } = {}) {
         super(content, headers, status);
     }
@@ -16,5 +16,3 @@ class ServerError extends ServerResponse {
         super.write(to);
     }
 }
-
-export = ServerError;

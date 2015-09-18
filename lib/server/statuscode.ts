@@ -1,4 +1,4 @@
-enum StatusCode {
+export enum StatusCode {
 	InformationalContinue = 100,
 	InformationalSwitchingProtocols = 101,
 	SuccessOK = 200,
@@ -42,4 +42,3 @@ enum StatusCode {
     ServerErrorGatewayTimeout = 504,
     ServerErrorHttpVersionNotSupported = 505
 }
-export = StatusCode;

@@ -12,9 +12,7 @@ var tsProject = ts.createProject({
 	target: 'ES5',
 	module: 'commonjs',
 	noExternalResolve: true,
-	sortOutput: true,
-	declarationFiles: true,
-	typescript: require('typescript')
+	declaration: true
 });
 var tsLintConfig = require('./tslint.json');
 
@@ -27,7 +25,8 @@ gulp.task('clean', function(cb) {
 gulp.task('lint', function() {
 	return gulp.src(['lib/**/*.ts', '!lib/definitions/**/*.ts'])
 		.pipe(tslint({
-			configuration: tsLintConfig
+			configuration: tsLintConfig,
+			tslint: require('tslint')
 		}))
 		.pipe(tslint.report('verbose'));
 });

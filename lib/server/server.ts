@@ -1,10 +1,10 @@
-import http = require('http');
-import https = require('https');
-import ServerRequest = require('./serverrequest');
-import ServerResponse = require('./serverresponse');
-import StatusCode = require('./statuscode');
+import * as http from 'http';
+import * as https from 'https';
+import { ServerRequest } from './serverrequest';
+import { ServerResponse } from './serverresponse';
+import { StatusCode } from './statuscode';
 
-class Server {
+export class Server {
     constructor() {
 
     }
@@ -39,4 +39,3 @@ class Server {
 			});
 	}
 }
-export = Server;
