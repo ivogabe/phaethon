@@ -43,17 +43,19 @@ export class ServerRequest {
 		var value = this.headers[header];
 		if (typeof value === 'string') {
 			return value;
-		} else {
+		} else if (typeof value === 'array') {
 			return value[0];
 		}
+		return undefined; // Header not found
 	}
 	getFullHeader(header: string): string[] {
 		var value = this.headers[header];
 		if (typeof value === 'string') {
 			return [value];
-		} else {
+		} else if (typeof value === 'array') {
 			return value;
 		}
+		return undefined; // Header not found
 	}
 
 	private _cookies: Map<string>;
