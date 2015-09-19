@@ -5,7 +5,6 @@ var ts = require('gulp-typescript');
 var tslint = require('gulp-tslint');
 var footer = require('gulp-footer');
 var merge = require('merge2');
-var dts = require('dts-generator');
 var fs = require('fs');
 
 var tsProject = ts.createProject({
@@ -16,7 +15,7 @@ var tsProject = ts.createProject({
 });
 var tsLintConfig = require('./tslint.json');
 
-gulp.task('default', ['lint', 'definitions']);
+gulp.task('default', ['lint', 'scripts']);
 
 gulp.task('clean', function(cb) {
 	rimraf('release', cb);
@@ -36,21 +35,11 @@ gulp.task('scripts', ['clean'], function() {
 		.pipe(sourcemaps.init())
 		.pipe(ts(tsProject));
 	return merge(
-		tsRes.dts.pipe(gulp.dest('release/dts')),
+		tsRes.dts.pipe(gulp.dest('release')),
 		tsRes.js
 			.pipe(sourcemaps.write('.'))
-			.pipe(gulp.dest('release/js'))
+			.pipe(gulp.dest('release'))
 	);
-});
-
-gulp.task('definitions', ['scripts'], function(callback) {
-	dts.generate({
-		name: '___phaethon',
-		baseDir: 'release/dts/server',
-		files: fs.readdirSync('release/dts/server'),
-		out: 'release/dts/server.d.ts'
-	});
-	callback();
 });
 
 gulp.task('watch', function() {
