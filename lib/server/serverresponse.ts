@@ -34,6 +34,9 @@ export class ServerResponse {
 	setCookie(cookie: Cookie) {
 		this.setHeader(headers.setCookie, cookie.toString());
 	}
+    deleteCookie(name: string) {
+        this.setCookie(new Cookie(name, '', -1));
+    }
 
     write(to: http.ServerResponse) {
         let buffer: Buffer;
