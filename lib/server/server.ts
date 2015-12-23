@@ -24,18 +24,19 @@ export class Server {
 
     listener: (request: ServerRequest) => ServerResponse | Promise<ServerResponse>;
 
-	private handleRequest(request: http.ServerRequest, response: http.ServerResponse) {
-		Promise.resolve(new ServerRequest(request))
-			.then(this.listener)
-			.then((res) => {
-				res.write(response);
-			}, (err) => {
-				if (err instanceof ServerResponse) {
-					(<ServerResponse> err).write(response);
-				} else {
-					response.writeHead(StatusCode.ServerErrorInternalServerError, { 'Content-Type': 'text/plain' });
-					response.end('500 Internal server error');
-				}
-			});
+	private async handleRequest(request: http.ServerRequest, response: http.ServerResponse) {
+		let res: ServerResponse;
+		try {
+			res = await this.listener(new ServerRequest(request));
+		} catch (err) {
+			if (err instanceof ServerResponse) {
+				(<ServerResponse> err).write(response);
+			} else {
+				response.writeHead(StatusCode.ServerErrorInternalServerError, { 'Content-Type': 'text/plain' });
+				response.end('500 Internal server error')
+			}
+			return;
+		}
+		res.write(response);
 	}
 }

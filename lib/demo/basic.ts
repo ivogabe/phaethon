@@ -26,10 +26,9 @@ var query = (request: lib.ServerRequest) => {
     return new lib.ServerResponse(JSON.stringify(request.query));
 };
 
-var body = (request: lib.ServerRequest) => {
-    return request.bodyBuffer.then(buffer => {
-        return new lib.ServerResponse(buffer);
-    });
+var body = async (request: lib.ServerRequest) => {
+    const buffer = await request.bodyBuffer;
+    return new lib.ServerResponse(buffer);
 };
 
 var headers = (request: lib.ServerRequest) => {
@@ -48,23 +47,17 @@ var redirect = (request: lib.ServerRequest) => {
     return lib.responses.redirect('http://localhost:8800/');
 };
 
-var promises = (request: lib.ServerRequest) => {
+var promises = async (request: lib.ServerRequest) => {
     var timeout = () => new Promise<number>((resolve, reject) => {
         setTimeout(() => {
             resolve(42);
         }, 5);
     });
 
-    var result: number = 0;
-
-    return request.bodyBuffer.then(buffer => {
-        result = buffer.length;
-        return timeout();
-    }).then(value1 => {
-        result += value1;
-        return timeout();
-    }).then(value2 => {
-        result += value2;
-        return new lib.ServerResponse(result.toString());
-    });
+    const buffer = await request.bodyBuffer;
+	let result = buffer.length;
+	
+    result += await timeout();
+    result += await timeout();
+    return new lib.ServerResponse(result.toString());
 };
