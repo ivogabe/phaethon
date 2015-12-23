@@ -7,12 +7,7 @@ var footer = require('gulp-footer');
 var merge = require('merge2');
 var fs = require('fs');
 
-var tsProject = ts.createProject({
-	target: 'ES5',
-	module: 'commonjs',
-	noExternalResolve: true,
-	declaration: true
-});
+var tsProject = ts.createProject('lib/tsconfig.json');
 var tsLintConfig = require('./tslint.json');
 
 gulp.task('default', ['lint', 'scripts']);

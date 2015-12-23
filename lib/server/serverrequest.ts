@@ -36,7 +36,6 @@ export class ServerRequest {
 		return this.parsedUrl.query;
 	}
 
-
     maxBodyLength = defaultMaxBodyLength;
 
 	getSingleHeader(header: string): string {
