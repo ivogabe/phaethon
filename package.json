@@ -33,7 +33,7 @@
     "url": "https://github.com/ivogabe/phaethon"
   },
   "engines": {
-    "node": ">=0.12"
+    "node": ">=4.0.0"
   },
   "dependencies": {
     "cookie": "~0.2.2",

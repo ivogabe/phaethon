@@ -22,7 +22,7 @@ export let isObject = isTypeOf<Object>('object');
 export let isDate = isInstanceOf(Date);
 export let isBuffer = <Type<Buffer>> Buffer.isBuffer;
 
-export function isArrayOf<U>(contentType: Type<U>, optional = false): Type<U[]> {
+export function isArrayOf<U>(contentType: Type<U>, optional?: boolean): Type<U[]> {
 	return <Type<U[]>>((value) => {
 		if (!(value instanceof Array)) return false;
 		for (let i = 0; i < (<Array<any>> value).length; i++) {
@@ -33,7 +33,7 @@ export function isArrayOf<U>(contentType: Type<U>, optional = false): Type<U[]> 
 		return true;
 	});
 }
-export function isMapOf<U>(contentType: Type<U>, optional = false): Type<Map<U>> {
+export function isMapOf<U>(contentType: Type<U>, optional?: boolean): Type<Map<U>> {
 	return <Type<Map<U>>> ((value) => {
 		if (typeof value !== 'object' || value === null) return false; // typeof null === 'object'
 		for (const key of Object.keys(value)) {

@@ -6,7 +6,7 @@ import { ServerResponse } from './serverresponse';
 import { Map } from './map';
 import { StatusCode } from './statuscode';
 
-export function redirect(to: string, permanent = false): ServerResponse {
+export function redirect(to: string, permanent?: boolean): ServerResponse {
     let response = new ServerResponse();
     response.content = '';
     response.headers[headers.location] = to;

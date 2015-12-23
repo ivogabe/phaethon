@@ -3,7 +3,7 @@ import { StatusCode } from './statuscode';
 import { ServerResponse } from './serverresponse';
 
 export class ServerError extends ServerResponse {
-    constructor(status: StatusCode, content: string = undefined, headers: { [ header: string ]: string } = {}) {
+    constructor(status: StatusCode, content?: string, headers?: { [ header: string ]: string }) {
         super(content, headers, status);
     }
 

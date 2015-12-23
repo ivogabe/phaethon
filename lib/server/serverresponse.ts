@@ -6,7 +6,9 @@ import { Cookie } from './cookie';
 import { Map } from './map';
 
 export class ServerResponse {
-    constructor(content: ServerResponseContent = undefined, headers: { [ header: string ]: string | string[] } = {}, status = StatusCode.SuccessOK) {
+    constructor(content?: ServerResponseContent, headers?: { [ header: string ]: string | string[] }, status?: StatusCode) {
+        if (status === undefined) status = StatusCode.SuccessOK;
+        if (headers === undefined) headers = {};
         this.content = content;
         this.headers = headers;
         this.status = status;
@@ -17,7 +19,7 @@ export class ServerResponse {
     content: ServerResponseContent;
     addExtraHeaders = true;
 
-    setHeader(header: string, value: string, append = false) {
+    setHeader(header: string, value: string, append?: boolean) {
         if (append) {
             let old = this.headers[header];
             if (old === undefined) {
