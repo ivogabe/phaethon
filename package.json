@@ -25,7 +25,8 @@
     "gulp-typescript": "^2.10.0",
     "merge2": "~0.3.6",
     "rimraf": "~2.4.3",
-    "tslint": "^2.5.0"
+    "tslint": "^2.5.0",
+    "typescript": "^1.8.0-dev.20151223"
   },
   "repository": {
     "type": "git",
