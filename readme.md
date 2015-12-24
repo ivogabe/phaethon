@@ -4,11 +4,11 @@ Fast, promise-based, non-magical server package for node.js.
 
 Use it with TypeScript:
 ```typescript
-import phaethon = require('phaethon');
+import * as phaethon from 'phaethon';
 
 var server = new phaethon.Server();
 
-server.listener = (request: phaethon.ServerRequest) => {
+server.listener = request => {
     var path = request.path.toLowerCase();
 
     if (path === '/') return new phaethon.ServerResponse('Hello World!');
@@ -43,6 +43,7 @@ Installation
 ```
 npm install phaethon
 ```
+The package includes TypeScript declarations. It's not necessary to reference some declaration file, TypeScript will automatically find it.
 
 Features
 --------
@@ -97,7 +98,7 @@ Errors will be catched by phaethon. If a ServerError is catched, it will be show
 
 Async functions
 ---------------
-You can also use phaethon with async functions, since async functions use promises. You'll need a transpiler like Babel for this. Async functions will be introduced in TypeScript in version 1.6.
+You can also use phaethon with async functions, since async functions use promises. You can use Babel or TypeScript to transpile async functions. For TypeScript, set `target` to `es6` and `experimentalAsyncFunctions` to `true`.
 Same example as above:
 ```typescript
 declare function somePromiseTask(input: string): Promise<string>;
