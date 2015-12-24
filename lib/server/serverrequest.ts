@@ -60,8 +60,9 @@ export class ServerRequest {
 	private _cookies: Map<string>;
 	get cookies() {
 		if (this._cookies !== undefined) return this._cookies;
-
-		return this._cookies = Cookie.parse(this.getSingleHeader(headers.cookie));
+		const header = this.getSingleHeader(headers.cookie);
+		if (header === undefined) return this._cookies = {};
+		return this._cookies = Cookie.parse(header);
 	}
 
     private _bodyBuffer: Promise<Buffer> = undefined;

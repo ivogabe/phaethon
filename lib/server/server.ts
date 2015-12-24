@@ -33,7 +33,10 @@ export class Server {
 				(<ServerResponse> err).write(response);
 			} else {
 				response.writeHead(StatusCode.ServerErrorInternalServerError, { 'Content-Type': 'text/plain' });
-				response.end('500 Internal server error')
+				response.end('500 Internal server error');
+				console.log('Uncaught error');
+				console.log(err);
+				if (err instanceof Error) console.log(err.stack);
 			}
 			return;
 		}
