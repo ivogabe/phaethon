@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as mime from 'mime';
 import * as headers from './headers';
-import { ServerError } from './servererror'
+import { ServerError } from './servererror';
 import { ServerResponse } from './serverresponse';
 import { Map } from './map';
 import { StatusCode } from './statuscode';
