@@ -29,7 +29,8 @@ export class SessionStore<T> {
 	constructor(
 		private cookieName: string,
 		private empty: () => T,
-		private inactiveTime: number
+		private inactiveTime: number,
+		private maxSessions: number
 	) {
 		setTimeout(() => this.clean(), inactiveTime / 2);
 	}
@@ -72,6 +73,14 @@ export class SessionStore<T> {
 		return session;
 	}
 	async create() {
+		if (this.sessions.size >= this.maxSessions) {
+			// Remove first session
+			for (const id of this.sessions.keys()) {
+				this.sessions.delete(id);
+				break;
+			}
+		}
+
 		this.id++;
 		if (this.id >= max) {
 			this.id = 0;

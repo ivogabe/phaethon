@@ -66,7 +66,7 @@ var promises = async (request: lib.ServerRequest) => {
 interface SessionData {
 	name: string;
 }
-const store = new lib.SessionStore<SessionData>('session', () => ({ name: '' }), 60 * 1000);
+const store = new lib.SessionStore<SessionData>('session', () => ({ name: '' }), 60 * 1000, 2048);
 const session = async (request: lib.ServerRequest) => {
 	const session = await store.findOrCreate(request);
 	let response = 'Name: ' + session.data.name;
