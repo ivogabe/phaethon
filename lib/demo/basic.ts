@@ -14,6 +14,7 @@ server.listener = (request: lib.ServerRequest) => {
     if (path === '/not-found') return notFound(request);
     if (path === '/redirect') return redirect(request);
     if (path === '/promises') return promises(request);
+	if (path === '/session') return session(request);
 
     throw new lib.ServerError(lib.StatusCode.ClientErrorNotFound);
 };
@@ -60,4 +61,21 @@ var promises = async (request: lib.ServerRequest) => {
     result += await timeout();
     result += await timeout();
     return new lib.ServerResponse(result.toString());
+};
+
+interface SessionData {
+	name: string;
+}
+const store = new lib.SessionStore<SessionData>('session', () => ({ name: '' }), 60 * 1000);
+const session = async (request: lib.ServerRequest) => {
+	const session = await store.findOrCreate(request);
+	let response = 'Name: ' + session.data.name;
+	const newName = request.query['name'];
+	if (typeof newName === 'string') {
+		session.data.name = newName;
+		response += '\nNew name: ' + session.data.name;
+	}
+	const serverResponse = new lib.ServerResponse(response);
+	serverResponse.setCookie(store.toCookie(session));
+	return serverResponse;
 };
