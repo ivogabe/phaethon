@@ -22,7 +22,7 @@ export function file(filename: string): Promise<ServerResponse> {
 
         let cleanUp: () => void;
 
-        let onOpen = (data) => {
+        let onOpen = () => {
             let response = new ServerResponse(stream, responseHeaders);
             resolved = true;
 
@@ -31,7 +31,7 @@ export function file(filename: string): Promise<ServerResponse> {
         let onCloseOrEnd = () => {
             cleanUp();
         };
-        let onError = (error) => {
+        let onError = (error: any) => {
             console.log(error);
             if (!resolved) {
                 if (error.code === 'ENOENT') {
