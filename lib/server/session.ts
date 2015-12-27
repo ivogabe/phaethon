@@ -125,4 +125,19 @@ export class SessionStore<T> {
 		const cookie = this.toCookie(session, path, domain, secure, httpOnly);
 		response.setCookie(cookie);
 	}
+	/**
+	 * Wraps a listener so you don't have to create the session manually.
+	 * Example:
+	 * server.listener = sessionStore.wrapListener((request, session) => {
+	 *     
+	 * });
+	 */
+	wrapListener(listener: (request: ServerRequest, session: Session<T>) => ServerResponse | Promise<ServerResponse>) {
+		return async (request: ServerRequest) => {
+			const session = await this.findOrCreate(request);
+			const response = await listener(request, session);
+			this.addCookie(response, session);
+			return response;
+		};
+	}
 }
