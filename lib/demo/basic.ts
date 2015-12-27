@@ -66,10 +66,11 @@ var promises = async (request: lib.ServerRequest) => {
 interface SessionData {
 	name: string;
 }
-const store = new lib.SessionStore<SessionData>('session', () => ({ name: '' }), 60 * 1000, 2048);
+const store = new lib.SessionStore<SessionData>('session', () => ({ name: '' }), 24 * 60 * 60 /* 1 day */ , 2048);
 const session = async (request: lib.ServerRequest) => {
 	const session = await store.findOrCreate(request);
 	let response = 'Name: ' + session.data.name;
+	console.log('session', session.data.name, request.query);
 	const newName = request.query['name'];
 	if (typeof newName === 'string') {
 		session.data.name = newName;

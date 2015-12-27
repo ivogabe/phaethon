@@ -1,5 +1,6 @@
 import * as crypto from 'crypto';
 import { ServerRequest } from './serverrequest';
+import { ServerResponse } from './serverresponse';
 import { Cookie } from './cookie';
 
 export interface Session<T> {
@@ -29,10 +30,13 @@ export class SessionStore<T> {
 	constructor(
 		private cookieName: string,
 		private empty: () => T,
+		/**
+		 * When a session has been inactive for this amount of seconds, the session is expired and deleted.
+		 */
 		private inactiveTime: number,
 		private maxSessions: number
 	) {
-		setTimeout(() => this.clean(), inactiveTime / 2);
+		setTimeout(() => this.clean(), inactiveTime * 1000 / 2);
 	}
 
 	private id = -1;
@@ -43,10 +47,11 @@ export class SessionStore<T> {
 	 */
 	private clean() {
 		// Sessions before this date will be deleted
-		const minimumTime = Date.now() - this.inactiveTime;
+		const minimumTime = Date.now() - this.inactiveTime * 1000;
 		for (const id of this.sessions.keys()) {
 			const session = this.sessions.get(id);
 			if (+session.active < minimumTime) {
+				// Session expired
 				this.sessions.delete(id);
 			}
 		}
@@ -70,6 +75,12 @@ export class SessionStore<T> {
 		// Session not found or invalid
 		if (session === undefined || session.token !== token) return undefined;
 		
+		if (Date.now() - +session.active >= this.inactiveTime * 1000) {
+			// Session expired
+			this.sessions.delete(id);
+			return undefined;
+		}
+		session.active = new Date();
 		return session;
 	}
 	async create() {
@@ -106,8 +117,12 @@ export class SessionStore<T> {
 	async findOrCreate(request: ServerRequest) {
 		return await this.find(request) || await this.create();
 	}
-	toCookie(session: Session<T>, expiresOrMaxAge?: Date | number, path?: string, domain?: string, secure?: boolean, httpOnly?: boolean) {
+	toCookie(session: Session<T>, path?: string, domain?: string, secure?: boolean, httpOnly?: boolean) {
 		const value = session.id + ':' + session.token;
-		return new Cookie(this.cookieName, value, expiresOrMaxAge, path, domain, secure, httpOnly);
+		return new Cookie(this.cookieName, value, this.inactiveTime, path, domain, secure, httpOnly);
+	}
+	addCookie(response: ServerResponse, session: Session<T>, path?: string, domain?: string, secure?: boolean, httpOnly?: boolean) {
+		const cookie = this.toCookie(session, path, domain, secure, httpOnly);
+		response.setCookie(cookie);
 	}
 }
