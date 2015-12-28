@@ -94,11 +94,11 @@ server.listener = (request: phaethon.ServerRequest) => {
 	});
 }
 ```
-Errors will be catched by phaethon. If a ServerError is catched, it will be shown to the user. ServerError is a class that just has the status code of the error and optionally a text and headers. Otherwise the user will see `500 Internal server error.`
+Errors will be catched by phaethon. If a ServerError is caught, it will be shown to the user. ServerError is a class that just has the status code of the error and optionally a text and headers. Otherwise the user will see `500 Internal server error.`
 
 Async functions
 ---------------
-You can also use phaethon with async functions, since async functions use promises. You can use Babel or TypeScript to transpile async functions. For TypeScript, set `target` to `es6` and `experimentalAsyncFunctions` to `true`.
+You can also use phaethon with async functions, since async functions use promises. You can use Babel or TypeScript to transpile async functions. For TypeScript, set `target` to `es6`.
 Same example as above:
 ```typescript
 declare function somePromiseTask(input: string): Promise<string>;
@@ -117,4 +117,34 @@ server.listener = async (request: phaethon.ServerRequest) => {
 		throw new phaethon.ServerError(404);
 	};
 }
+```
+
+Sessions
+--------
+Sessions can easily be implemented using the `SessionStore`:
+```typescript
+import { Server, SessionStore } from 'phaethon';
+interface SessionData {
+	foo: string;
+}
+const sessionStore = new SessionStore<SessionData>(
+	'session-cookie',    // Cookie name
+	() => ({ foo: '' }), // Session data of new session
+	60 * 60 * 1000,      // Lifetime
+	100000               // Max number of sessions
+);
+const server =  new Server();
+server.listener = async (request) => {
+	const session = await sessionStore.findOrCreate(request);
+	
+	const response = ...
+	sessionStore.addCookie(response, session);
+	return response;
+};
+```
+Or simplified:
+```typescript
+server.listener = sessionStore.wrapListener(async (request, session) => {
+	return ...;
+});
 ```
